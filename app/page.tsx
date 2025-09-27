@@ -98,14 +98,14 @@ export default function HomePage() {
                 Everything Energy & Electronics
               </h1>
               <p className="max-w-[600px] text-white md:text-xl mb-8 text-center w-full" style={{textShadow: "0 1px 4px rgba(0,0,0,0.18)"}}>
-                Stay connected with reliable backup power, smart accessories, and energy solutions designed for everyday life. Voltspire brings you the best of Gizzu – so you’ll never run out of charge when it matters most.
+                Stay connected with reliable backup power, smart accessories, and energy solutions designed for everyday life. Voltspire brings you the best of Gizzu, so you'll never run out of charge when it matters most.
               </p>
               <div className="flex flex-col sm:flex-row gap-6 justify-center">
                 <Button size="lg" className="font-medium bg-yellow-400 text-black hover:bg-yellow-500 border-none shadow-lg w-48" asChild>
                   <Link href="/shop">Shop Now</Link>
                 </Button>
                 <Button size="lg" variant="outline" className="font-medium bg-white text-black border-none hover:bg-gray-100 shadow-lg">
-                  View Deals
+                  Explore Products
                 </Button>
               </div>
           </div>

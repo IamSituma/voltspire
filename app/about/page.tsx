@@ -8,14 +8,7 @@ export default function AboutPage() {
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">About PetDo</h1>
-        <div className="flex items-center text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-primary">
-            Home
-          </Link>
-          <span className="mx-2">/</span>
-          <span>About</span>
-        </div>
+        <h1 className="text-3xl font-bold mb-2">About Voltspire</h1>
       </div>
 
       {/* Hero Section */}
@@ -23,18 +16,13 @@ export default function AboutPage() {
         <div>
           <h2 className="text-3xl font-bold mb-4">Our Story</h2>
           <p className="text-muted-foreground mb-4">
-            Founded in 2015, PetDo started with a simple mission: to provide high-quality products for pets and make pet
-            parenting easier and more enjoyable.
+            Founded in 2023, Voltspire set out with a clear mission: to provide high-quality electrical and sustainable energy products that empower communities and improve everyday life. We believe that access to reliable electricity and durable electrical solutions should be universal, and we are committed to making that a reality.
           </p>
           <p className="text-muted-foreground mb-4">
-            What began as a small local shop has grown into a trusted online destination for pet lovers across the
-            country. Our founder, Sarah Johnson, a passionate dog owner, recognized the need for premium pet products
-            that prioritize both quality and affordability.
+            At Voltspire, we carefully select our products to ensure they meet the highest standards of safety, efficiency, and longevity. From innovative energy-saving devices to essential electrical equipment, every item in our catalog is designed to serve both homes and businesses effectively.
           </p>
           <p className="text-muted-foreground">
-            Today, we continue to be guided by our love for animals and commitment to exceptional customer service.
-            Every product in our catalog is carefully selected to ensure it meets our high standards for quality,
-            safety, and value.
+            Beyond products, our focus is on sustainability and accessibility. By promoting energy-efficient solutions and reliable electrical systems, we aim to reduce environmental impact while ensuring that more people can benefit from modern electricity solutions.
           </p>
         </div>
         <div className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden">
@@ -61,9 +49,9 @@ export default function AboutPage() {
             <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-4">
               <Heart className="h-6 w-6" />
             </div>
-            <h3 className="font-semibold text-lg mb-2">Pet Wellbeing</h3>
+            <h3 className="font-semibold text-lg mb-2">Reliability</h3>
             <p className="text-muted-foreground">
-              We prioritize products that contribute to the health, happiness, and wellbeing of your pets.
+              We provide products that people can trust to work efficiently and last longer.
             </p>
           </div>
 
@@ -71,9 +59,9 @@ export default function AboutPage() {
             <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-4">
               <Award className="h-6 w-6" />
             </div>
-            <h3 className="font-semibold text-lg mb-2">Quality Assurance</h3>
+            <h3 className="font-semibold text-lg mb-2">Sustainability</h3>
             <p className="text-muted-foreground">
-              We rigorously test and verify all products to ensure they meet our high standards for quality and safety.
+              We prioritize energy-efficient solutions and eco-friendly practices in everything we do.
             </p>
           </div>
 
@@ -81,9 +69,9 @@ export default function AboutPage() {
             <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-4">
               <Users className="h-6 w-6" />
             </div>
-            <h3 className="font-semibold text-lg mb-2">Customer Focus</h3>
+            <h3 className="font-semibold text-lg mb-2">Accessibility</h3>
             <p className="text-muted-foreground">
-              We're dedicated to providing exceptional service and building lasting relationships with our customers.
+              We strive to make quality electrical products available to everyone, everywhere.
             </p>
           </div>
 
@@ -91,9 +79,9 @@ export default function AboutPage() {
             <div className="h-12 w-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-4">
               <Truck className="h-6 w-6" />
             </div>
-            <h3 className="font-semibold text-lg mb-2">Reliability</h3>
+            <h3 className="font-semibold text-lg mb-2">Innovation</h3>
             <p className="text-muted-foreground">
-              We deliver on our promises with fast shipping, accurate orders, and responsive customer support.
+              We continually seek new ways to improve energy solutions and enhance customer experience.
             </p>
           </div>
         </div>
@@ -102,9 +90,9 @@ export default function AboutPage() {
       {/* Team Section */}
       <div className="mb-16">
         <div className="text-center mb-10">
-          <h2 className="text-3xl font-bold mb-4">Meet Our Team</h2>
+          <h2 className="text-3xl font-bold mb-4">The Team</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            The passionate people behind PetDo who work tirelessly to bring the best products to you and your pets.
+            The passionate people behind Voltspire who work tirelessly to bring the best products to you and your pets.
           </p>
         </div>
 
@@ -149,15 +137,22 @@ export default function AboutPage() {
       </div>
 
       {/* CTA Section */}
-      <div className="bg-primary text-primary-foreground rounded-lg p-8 md:p-12 text-center">
-        <h2 className="text-2xl md:text-3xl font-bold mb-4">Join the PetDo Family</h2>
+      <div className="bg-black text-white rounded-lg p-8 md:p-12 text-center">
+        <h2 className="text-2xl md:text-3xl font-bold mb-4">
+          Discover & Shop Gizzu Products with Voltspire
+        </h2>
         <p className="max-w-2xl mx-auto mb-6">
-          Discover premium products for your furry friends and join thousands of satisfied pet parents who trust PetDo.
+          Discover premium products for your friends & family and join thousands of satisfied families & individuals that trust Voltspire
         </p>
-        <Button size="lg" variant="secondary" asChild>
+        <Button
+          size="lg"
+          className="bg-yellow-400 hover:bg-yellow-700 text-black"
+          asChild
+        >
           <Link href="/shop">Shop Now</Link>
         </Button>
       </div>
+
     </div>
   )
 }
