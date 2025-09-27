@@ -81,10 +81,10 @@ export default function RegisterPage() {
               </Link>
             </Label>
           </div>
-          <Button className="w-full" size="lg">
+          <Button             className="bg-yellow-500 text-black w-full hover:bg-black hover:text-white" type="submit">
             Create Account
           </Button>
-
+          {/*
           <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t" />
@@ -123,11 +123,12 @@ export default function RegisterPage() {
               Facebook
             </Button>
           </div>
+          */}
         </CardContent>
         <CardFooter className="flex flex-col">
           <p className="text-center text-sm text-muted-foreground">
             Already have an account?{" "}
-            <Link href="/login" className="text-primary hover:underline">
+            <Link href="/login" className="text-primary hover:underline text-yellow-700 font-bold">
               Sign in
             </Link>
           </p>

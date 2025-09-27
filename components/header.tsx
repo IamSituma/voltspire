@@ -25,7 +25,7 @@ export default function Header() {
               height={40}
               className="rounded-full bg-primary"
             />
-            <span className="text-xl font-bold">PetDo</span>
+            <span className="text-xl font-bold">Voltspire</span>
           </Link>
           <nav className="hidden md:flex gap-6">
             <Link href="/" className="text-sm font-medium transition-colors hover:text-primary">
@@ -41,22 +41,22 @@ export default function Header() {
               <DropdownMenuContent>
                 <DropdownMenuItem>
                   <Link href="/category/food" className="w-full">
-                    Food
+                    Power Stations
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link href="/category/accessories" className="w-full">
-                    Accessories
+                    Power Banks
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link href="/category/toys" className="w-full">
-                    Toys
+                    UPS Systems
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
                   <Link href="/category/grooming" className="w-full">
-                    Grooming
+                    On The Go
                   </Link>
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -80,19 +80,6 @@ export default function Header() {
               />
             </div>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="relative">
-                <Globe className="h-5 w-5" />
-                <span className="sr-only">Language</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>English</DropdownMenuItem>
-              <DropdownMenuItem>Spanish</DropdownMenuItem>
-              <DropdownMenuItem>French</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
           <Button variant="ghost" size="icon" className="relative" asChild>
             <Link href="/login">
               <User className="h-5 w-5" />
