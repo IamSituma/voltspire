@@ -15,10 +15,10 @@ export default function Footer() {
                 height={40}
                 className="rounded-full bg-primary"
               />
-              <span className="text-xl font-bold">PetDo</span>
+              <span className="text-xl font-bold">Voltspire</span>
             </Link>
             <p className="text-sm text-muted-foreground">
-              Your one-stop shop for all pet needs. Quality products for your furry friends.
+              Your one-stop shop for all Gizzu products. Quality products for your family & friends.
             </p>
             <div className="flex gap-4">
               <Link href="#" className="text-muted-foreground hover:text-primary">
@@ -83,16 +83,16 @@ export default function Footer() {
                 All Products
               </Link>
               <Link href="/category/food" className="text-sm text-muted-foreground hover:text-primary">
-                Dog Food
+                Power Stations
               </Link>
               <Link href="/category/accessories" className="text-sm text-muted-foreground hover:text-primary">
-                Accessories
+                Power Banks
               </Link>
               <Link href="/category/toys" className="text-sm text-muted-foreground hover:text-primary">
-                Toys
+                UPS Systems
               </Link>
               <Link href="/category/grooming" className="text-sm text-muted-foreground hover:text-primary">
-                Grooming
+                On the Go
               </Link>
             </nav>
           </div>
@@ -101,15 +101,6 @@ export default function Footer() {
             <nav className="flex flex-col space-y-2">
               <Link href="/about" className="text-sm text-muted-foreground hover:text-primary">
                 About Us
-              </Link>
-              <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
-                Careers
-              </Link>
-              <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
-                Press
-              </Link>
-              <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
-                Blog
               </Link>
             </nav>
           </div>
@@ -133,10 +124,10 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-sm font-medium">Contact</h3>
             <div className="flex flex-col space-y-2 text-sm text-muted-foreground">
-              <p>123 Pet Street, Dogville</p>
-              <p>New York, NY 10001</p>
-              <p>Email: info@petdo.com</p>
-              <p>Phone: (123) 456-7890</p>
+              <p>Bugolobi</p>
+              <p>Bandali Rise, Kampala</p>
+              <p>Email: info@voltspire.com</p>
+              <p>Phone: +256 712 345 678</p>
             </div>
           </div>
         </div>
