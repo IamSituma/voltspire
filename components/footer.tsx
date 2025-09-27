@@ -20,6 +20,7 @@ export default function Footer() {
             <p className="text-sm text-muted-foreground">
               Your one-stop shop for all Gizzu products. Quality products for your family & friends.
             </p>
+            {/*
             <div className="flex gap-4">
               <Link href="#" className="text-muted-foreground hover:text-primary">
                 <svg
@@ -75,6 +76,7 @@ export default function Footer() {
                 <span className="sr-only">Twitter</span>
               </Link>
             </div>
+            */}
           </div>
           <div className="space-y-4">
             <h3 className="text-sm font-medium">Shop</h3>
@@ -134,7 +136,7 @@ export default function Footer() {
         <div className="mt-8 border-t pt-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} PetDo. All rights reserved.
+              &copy; {new Date().getFullYear()} Voltspire. All rights reserved.
             </p>
             <div className="flex gap-4">
               <Link href="#" className="text-xs text-muted-foreground hover:text-primary">
@@ -149,26 +151,20 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-2">
               <Image
-                src="https://cdn.pixabay.com/photo/2015/05/26/09/37/paypal-784404_1280.png"
+                src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Airtel_logo-01.png"
+                alt="Airtel"
+                width={40}
+                height={30}
+              />
+              <Image
+                src="https://upload.wikimedia.org/wikipedia/commons/9/93/New-mtn-logo.jpg"
+                alt="MTN"
+                width={40}
+                height={30}
+              />
+              <Image
+                src="https://1000logos.net/wp-content/uploads/2021/11/VISA-logo.jpg"
                 alt="Visa"
-                width={40}
-                height={30}
-              />
-              <Image
-                src="https://cdn.pixabay.com/photo/2021/12/08/05/16/mastercard-6854992_1280.png"
-                alt="Mastercard"
-                width={40}
-                height={30}
-              />
-              <Image
-                src="https://cdn.pixabay.com/photo/2015/05/26/09/37/paypal-784404_1280.png"
-                alt="PayPal"
-                width={40}
-                height={30}
-              />
-              <Image
-                src="https://cdn.pixabay.com/photo/2022/01/17/14/39/credit-card-6944925_1280.png"
-                alt="American Express"
                 width={40}
                 height={30}
               />
