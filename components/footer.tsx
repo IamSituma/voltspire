@@ -9,13 +9,11 @@ export default function Footer() {
           <div className="space-y-4">
             <Link href="/" className="flex items-center gap-2">
               <Image
-                src="https://images.unsplash.com/photo-1583337130417-3346a1be7dee?q=80&w=2064&auto=format&fit=crop&ixlib=rb-4.0.3"
+                src="images/volts2.png"
                 alt="PetDo Logo"
-                width={40}
-                height={40}
-                className="rounded-full bg-primary"
+                width={90}
+                height={90}
               />
-              <span className="text-xl font-bold">Voltspire</span>
             </Link>
             <p className="text-sm text-muted-foreground">
               Your one-stop shop for all Gizzu products. Quality products for your family & friends.
