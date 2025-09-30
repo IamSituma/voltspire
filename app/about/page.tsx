@@ -27,8 +27,8 @@ export default function AboutPage() {
         </div>
         <div className="relative h-[300px] md:h-[400px] rounded-lg overflow-hidden">
           <Image
-            src="https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=2069&auto=format&fit=crop&ixlib=rb-4.0.3"
-            alt="PetDo team with dogs"
+            src="images/gizzu.jpg"
+            alt="gizzu home products"
             fill
             className="object-cover"
           />

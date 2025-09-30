@@ -149,22 +149,22 @@ export default function Footer() {
             </div>
             <div className="flex items-center gap-2">
               <Image
-                src="https://upload.wikimedia.org/wikipedia/commons/3/3a/Airtel_logo-01.png"
+                src="images/airtel.png"
                 alt="Airtel"
                 width={40}
-                height={30}
+                height={40}
               />
               <Image
-                src="https://upload.wikimedia.org/wikipedia/commons/9/93/New-mtn-logo.jpg"
+                src="images/mtn.png"
                 alt="MTN"
                 width={40}
-                height={30}
+                height={40}
               />
               <Image
-                src="https://1000logos.net/wp-content/uploads/2021/11/VISA-logo.jpg"
+                src="images/visa.png"
                 alt="Visa"
                 width={40}
-                height={30}
+                height={40}
               />
             </div>
           </div>

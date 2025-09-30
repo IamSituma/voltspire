@@ -17,36 +17,36 @@ export default function HomePage() {
   const featuredProducts = [
     {
       id: 1,
-      name: "Premium Dog Food",
+      name: "12V LiFePO4 Battery",
       image:
-        "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3",
+        "images/battery.jpg",
       price: 49.99,
       offerPrice: 39.99,
-      category: "Power Banks",
+      category: "Batteries",
     },
     {
       id: 2,
-      name: "Comfortable Dog Bed",
+      name: "Power Stattion",
       image:
-        "https://images.unsplash.com/photo-1541599468348-e96984315921?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+        "images/power01.jpg",
       price: 89.99,
       offerPrice: 69.99,
       category: "Power Stations",
     },
     {
       id: 3,
-      name: "Interactive Dog Toy",
+      name: "Slimline Notebook Combination Lock",
       image:
-        "https://images.unsplash.com/photo-1575425186775-b8de9a427e67?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+        "images/lock.jpg",
       price: 24.99,
       offerPrice: 19.99,
       category: "Cables & Adapters",
     },
     {
       id: 4,
-      name: "Dog Grooming Kit",
+      name: "Bulb",
       image:
-        "https://images.unsplash.com/photo-1607734834519-d8576ae60ea6?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3",
+        "images/bulb.jpg",
       price: 34.99,
       offerPrice: 29.99,
       category: "Lighting",
@@ -85,8 +85,8 @@ export default function HomePage() {
       {/* Hero Banner */}
       <section className="relative h-[500px] md:h-[800px] lg:h-[900px] flex items-center">
         <Image
-          src="https://images.unsplash.com/photo-1587300003388-59208cc962cb?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3"
-          alt="Happy dog background"
+          src="images/banner.png"
+          alt="Gizzu Home Products"
           fill
           className="object-cover z-0"
           priority
@@ -120,7 +120,7 @@ export default function HomePage() {
             {/* Large left item */}
             <Link href="/category/power-stations" className="group relative col-span-1 row-span-2 rounded-lg overflow-hidden shadow-md">
               <div className="w-full h-full min-h-[300px] md:min-h-[400px]">
-                <Image src="https://images.unsplash.com/photo-1541599468348-e96984315921?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Power Stations" fill className="object-cover transition-transform group-hover:scale-105" />
+                <Image src="images/power.jpg" alt="Power Stations" fill className="object-cover transition-transform group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-4">
                   <h3 className="text-xl font-bold text-white">Power Stations</h3>
@@ -130,7 +130,7 @@ export default function HomePage() {
             {/* Tall top-right item */}
             <Link href="/category/solar-panels" className="group relative col-span-1 md:col-span-2 row-span-1 rounded-lg overflow-hidden shadow-md">
               <div className="w-full h-full min-h-[250px] md:min-h-[300px]">
-                <Image src="https://images.unsplash.com/photo-1692639162322-2e2c58e445b2?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Solar Panels" fill className="object-cover transition-transform group-hover:scale-105" />
+                <Image src="images/solar panels.jpg" alt="Solar Panels" fill className="object-cover transition-transform group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-4">
                   <h3 className="text-xl font-bold text-white">Solar Panels</h3>
@@ -140,7 +140,7 @@ export default function HomePage() {
             {/* Small bottom-right items */}
             <Link href="/category/lighting" className="group relative col-span-1 md:col-span-1 row-span-1 rounded-lg overflow-hidden shadow-md">
               <div className="w-full h-full min-h-[150px] md:min-h-[200px]">
-                <Image src="https://images.unsplash.com/photo-1516734212186-a967f81ad0d7?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Lighting" fill className="object-cover transition-transform group-hover:scale-105" />
+                <Image src="images/bulb.jpg" alt="Lighting" fill className="object-cover transition-transform group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-4">
                   <h3 className="text-xl font-bold text-white">Lighting</h3>
@@ -149,7 +149,7 @@ export default function HomePage() {
             </Link>
             <Link href="/category/wall-chargers-plugs" className="group relative col-span-1 md:col-span-1 row-span-1 rounded-lg overflow-hidden shadow-md">
               <div className="w-full h-full min-h-[150px] md:min-h-[200px]">
-                <Image src="https://images.unsplash.com/photo-1519125323398-675f0ddb6308?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3" alt="Wall Chargers & Plugs" fill className="object-cover transition-transform group-hover:scale-105" />
+                <Image src="images/cables.jpg" alt="Wall Chargers & Plugs" fill className="object-cover transition-transform group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute bottom-0 left-0 p-4">
                   <h3 className="text-xl font-bold text-white">Wall Chargers & Plugs</h3>
@@ -175,24 +175,6 @@ export default function HomePage() {
                     height={300}
                     className="h-full w-full object-cover transition-transform group-hover:scale-105"
                   />
-                  <div className="absolute top-4 right-4 flex flex-col gap-2">
-                    <Button
-                      size="icon"
-                      variant="secondary"
-                      className="h-8 w-8 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
-                    >
-                      <Heart className="h-4 w-4" />
-                      <span className="sr-only">Add to wishlist</span>
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="secondary"
-                      className="h-8 w-8 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
-                    >
-                      <Search className="h-4 w-4" />
-                      <span className="sr-only">Quick view</span>
-                    </Button>
-                  </div>
                   <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
                     <Button className="mx-auto">
                       <ShoppingCart className="mr-2 h-4 w-4" />

@@ -13,9 +13,10 @@ import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
+import { id } from "date-fns/locale"
 
 export default function ShopPage() {
-  const [priceRange, setPriceRange] = useState([0, 100])
+  const [priceRange, setPriceRange] = useState([25000 - 1000000])
   const [selectedFilters, setSelectedFilters] = useState({
     categories: [],
     brands: [],
@@ -26,12 +27,12 @@ export default function ShopPage() {
   const products = [
     {
       id: 1,
-      name: "Premium Dog Food",
+      name: "12V LiFePO4 Battery",
       image:
-        "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3",
-      price: 49.99,
-      offerPrice: 39.99,
-      category: "Food",
+        "images/battery.jpg",
+      price: 35000,
+      offerPrice: 40000,
+      category: "Batteries",
       brand: "PetNutrition",
       rating: 5,
     },
@@ -50,37 +51,48 @@ export default function ShopPage() {
       id: 3,
       name: "Interactive Dog Toy",
       image:
-        "https://images.unsplash.com/photo-1575425186775-b8de9a427e67?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
+        "images/power01.jpg",
       price: 24.99,
       offerPrice: 19.99,
-      category: "Toys",
+      category: "Power Stations",
       brand: "PlayfulPaws",
       rating: 5,
     },
     {
       id: 4,
-      name: "Dog Grooming Kit",
+      name: "Interactive Dog Toy",
       image:
-        "https://images.unsplash.com/photo-1607734834519-d8576ae60ea6?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3",
+        "images/power02.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "Power Stations",
+      brand: "PlayfulPaws",
+      rating: 5,
+    },
+    {
+      id: 5,
+      name: "Ligihing Bulb - Screw",
+      image:
+        "images/bulb1.jpg",
       price: 34.99,
       offerPrice: 29.99,
-      category: "Grooming",
+      category: "Lighting",
       brand: "GroomPro",
       rating: 4,
     },
     {
-      id: 5,
-      name: "Organic Dog Treats",
+      id: 6,
+      name: "Slimline Notebook Combination Lock",
       image:
-        "https://images.unsplash.com/photo-1568640347023-a616a30bc3bd?q=80&w=2073&auto=format&fit=crop&ixlib=rb-4.0.3",
+        "images/lock.jpg",
       price: 19.99,
       offerPrice: 15.99,
-      category: "Food",
+      category: "Cables & Adapters",
       brand: "PetNutrition",
       rating: 5,
     },
     {
-      id: 6,
+      id: 7,
       name: "Dog Collar with Name Tag",
       image:
         "https://images.unsplash.com/photo-1599839575945-a9e5af0c3fa5?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3",
@@ -91,26 +103,147 @@ export default function ShopPage() {
       rating: 4,
     },
     {
-      id: 7,
-      name: "Dental Chew Toys",
+      id: 8,
+      name: "Lighting Charge & Sync Cable",
       image:
-        "https://images.unsplash.com/photo-1591946614720-90a587da4a36?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3",
+        "images/cable.jpg",
       price: 9.99,
       offerPrice: 7.99,
-      category: "Toys",
+      category: "Cables & Adapters",
       brand: "DentalPet",
       rating: 3,
     },
     {
-      id: 8,
-      name: "Dog Shampoo",
+      id: 9,
+      name: "Nano Security Cable with Key Lock",
       image:
-        "https://images.unsplash.com/photo-1583511655826-05700442982d?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3",
+        "images/lock1.jpg",
       price: 12.99,
       offerPrice: 10.99,
-      category: "Grooming",
+      category: "Cables & Adapters",
       brand: "GroomPro",
       rating: 4,
+    },
+        {
+      id: 10,
+      name: "Lighting Bulb - Pin",
+      image:
+        "images/bulb.jpg",
+      price: 12.99,
+      offerPrice: 10.99,
+      category: "Lighting",
+      brand: "GroomPro",
+      rating: 4,
+    },
+    {
+      id: 11,
+      name: "Gizzu Challenger Pro 1120WH",
+      image:
+        "images/power03.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "Power Stations",
+      brand: "PlayfulPaws",
+      rating: 5,
+    },
+       {
+      id: 12,
+      name: "Gizzu 242WH Power Station",
+      image:
+        "images/power04.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "Power Stations",
+      brand: "PlayfulPaws",
+      rating: 5,
+    },
+      {
+      id: 13,
+      name: "Gizzu 296WH Power Station",
+      image:
+        "images/power05.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "Power Stations",
+      brand: "PlayfulPaws",
+      rating: 4,
+    },
+     {
+      id: 14,
+      name: "Gizzu 518WH Power Station",
+      image:
+        "images/power05.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "Power Stations",
+      brand: "PlayfulPaws",
+      rating: 4,
+    },
+    {
+      id: 15,
+      name: "High Speed HDMI Cable with Ethernet",
+      image:
+        "images/cable1.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "Cables & Adapters",
+      brand: "PlayfulPaws",
+      rating: 4,
+    },
+    {
+      id: 16,
+      name: "Nano Security Cable with Combination Lock",
+      image:
+        "images/lock2.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "Cables & Adapters",
+      brand: "PlayfulPaws",
+      rating: 4,
+    },
+    {
+      id: 17,
+      name: "Gizzu 36W Mini DC",
+      image:
+        "images/ups.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "UPS",
+      brand: "PlayfulPaws",
+      rating: 4,
+    },
+      {
+      id: 17,
+      name: "Gizzu 30W Mini DC",
+      image:
+        "images/ups1.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "UPS",
+      brand: "PlayfulPaws",
+      rating: 4,
+    },
+     {
+      id: 17,
+      name: "Gizzu 60W Mini DC",
+      image:
+        "images/ups2.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "UPS",
+      brand: "PlayfulPaws",
+      rating: 5,
+    },
+    {
+      id: 18,
+      name: "Gizzu 100W Mini DC",
+      image:
+        "images/ups3.jpg",
+      price: 24.99,
+      offerPrice: 19.99,
+      category: "UPS",
+      brand: "PlayfulPaws",
+      rating: 5,
     },
   ]
 
@@ -138,18 +271,18 @@ export default function ShopPage() {
       brands: [],
       ratings: [],
     })
-    setPriceRange([0, 100])
+    setPriceRange([25000 - 1000000])
   }
 
   const FilterSidebar = ({ isMobile = false }) => (
-    <div className={`space-y-6 ${isMobile ? "" : "sticky top-20"}`}>
+    <div className={`space-y-6 UGX{isMobile ? "" : "sticky top-20"}`}>
       <div className="flex items-center justify-between">
         <h3 className="font-medium text-lg">Filters</h3>
         {(selectedFilters.categories.length > 0 ||
           selectedFilters.brands.length > 0 ||
           selectedFilters.ratings.length > 0 ||
           priceRange[0] > 0 ||
-          priceRange[1] < 100) && (
+          priceRange[1] < 25000) && (
           <Button
             variant="ghost"
             size="sm"
@@ -167,14 +300,14 @@ export default function ShopPage() {
             <AccordionTrigger>Categories</AccordionTrigger>
             <AccordionContent>
               <div className="space-y-2">
-                {["Food", "Accessories", "Toys", "Grooming"].map((category) => (
+                {["UPS", "Batteries", "Power Stations", "Lighting", "Cables & Adapters", "Accessories"].map((category) => (
                   <div key={category} className="flex items-center space-x-2">
                     <Checkbox
-                      id={`category-${category}`}
+                      id={`category-UGX{category}`}
                       checked={selectedFilters.categories.includes(category)}
                       onCheckedChange={() => toggleFilter("categories", category)}
                     />
-                    <Label htmlFor={`category-${category}`} className="text-sm font-normal cursor-pointer">
+                    <Label htmlFor={`category-UGX{category}`} className="text-sm font-normal cursor-pointer">
                       {category}
                     </Label>
                   </div>
@@ -196,8 +329,8 @@ export default function ShopPage() {
                   className="py-4"
                 />
                 <div className="flex items-center justify-between">
-                  <span className="text-sm">${priceRange[0]}</span>
-                  <span className="text-sm">${priceRange[1]}</span>
+                  <span className="text-sm">UGX{priceRange[0]}</span>
+                  <span className="text-sm">UGX{priceRange[1]}</span>
                 </div>
               </div>
             </AccordionContent>
@@ -210,11 +343,11 @@ export default function ShopPage() {
                 {["PetNutrition", "ComfyPets", "PlayfulPaws", "GroomPro", "PetStyle", "DentalPet"].map((brand) => (
                   <div key={brand} className="flex items-center space-x-2">
                     <Checkbox
-                      id={`brand-${brand}`}
+                      id={`brand-UGX{brand}`}
                       checked={selectedFilters.brands.includes(brand)}
                       onCheckedChange={() => toggleFilter("brands", brand)}
                     />
-                    <Label htmlFor={`brand-${brand}`} className="text-sm font-normal cursor-pointer">
+                    <Label htmlFor={`brand-UGX{brand}`} className="text-sm font-normal cursor-pointer">
                       {brand}
                     </Label>
                   </div>
@@ -230,18 +363,18 @@ export default function ShopPage() {
                 {[5, 4, 3, 2, 1].map((rating) => (
                   <div key={rating} className="flex items-center space-x-2">
                     <Checkbox
-                      id={`rating-${rating}`}
+                      id={`rating-UGX{rating}`}
                       checked={selectedFilters.ratings.includes(rating)}
                       onCheckedChange={() => toggleFilter("ratings", rating)}
                     />
                     <Label
-                      htmlFor={`rating-${rating}`}
+                      htmlFor={`rating-UGX{rating}`}
                       className="text-sm font-normal cursor-pointer flex items-center"
                     >
                       {Array.from({ length: 5 }).map((_, i) => (
                         <svg
                           key={i}
-                          className={`h-4 w-4 ${i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                          className={`h-4 w-4 UGX{i < rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                         >
@@ -288,14 +421,7 @@ export default function ShopPage() {
     <div className="container px-4 py-8 md:px-6 md:py-12">
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Shop All Products</h1>
-        <div className="flex items-center text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-primary">
-            Home
-          </Link>
-          <span className="mx-2">/</span>
-          <span>Shop</span>
         </div>
-      </div>
 
       <div className="flex flex-col md:flex-row gap-8">
         {/* Filters - Desktop */}
@@ -331,20 +457,20 @@ export default function ShopPage() {
               {/* Active filters */}
               <div className="flex flex-wrap gap-2">
                 {selectedFilters.categories.map((category) => (
-                  <Badge key={`cat-${category}`} variant="secondary" className="flex items-center gap-1">
+                  <Badge key={`cat-UGX{category}`} variant="secondary" className="flex items-center gap-1">
                     {category}
                     <X className="h-3 w-3 cursor-pointer" onClick={() => toggleFilter("categories", category)} />
                   </Badge>
                 ))}
                 {selectedFilters.brands.map((brand) => (
-                  <Badge key={`brand-${brand}`} variant="secondary" className="flex items-center gap-1">
+                  <Badge key={`brand-UGX{brand}`} variant="secondary" className="flex items-center gap-1">
                     {brand}
                     <X className="h-3 w-3 cursor-pointer" onClick={() => toggleFilter("brands", brand)} />
                   </Badge>
                 ))}
                 {(priceRange[0] > 0 || priceRange[1] < 100) && (
                   <Badge variant="secondary" className="flex items-center gap-1">
-                    ${priceRange[0]} - ${priceRange[1]}
+                    UGX{priceRange[0]} - UGX{priceRange[1]}
                     <X className="h-3 w-3 cursor-pointer" onClick={() => setPriceRange([0, 100])} />
                   </Badge>
                 )}
@@ -384,25 +510,7 @@ export default function ShopPage() {
                       width={300}
                       height={300}
                       className="h-full w-full object-cover transition-transform group-hover:scale-105"
-                    />
-                    <div className="absolute top-4 right-4 flex flex-col gap-2">
-                      <Button
-                        size="icon"
-                        variant="secondary"
-                        className="h-8 w-8 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
-                      >
-                        <Heart className="h-4 w-4" />
-                        <span className="sr-only">Add to wishlist</span>
-                      </Button>
-                      <Button
-                        size="icon"
-                        variant="secondary"
-                        className="h-8 w-8 rounded-full opacity-0 transition-opacity group-hover:opacity-100"
-                      >
-                        <Search className="h-4 w-4" />
-                        <span className="sr-only">Quick view</span>
-                      </Button>
-                    </div>
+                      />
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
                       <Button className="mx-auto">
                         <ShoppingCart className="mr-2 h-4 w-4" />
@@ -416,14 +524,14 @@ export default function ShopPage() {
                     </Badge>
                     <h3 className="font-medium">{product.name}</h3>
                     <div className="flex justify-center gap-2">
-                      <span className="text-muted-foreground line-through">${product.price.toFixed(2)}</span>
-                      <span className="font-medium text-primary">${product.offerPrice.toFixed(2)}</span>
+                      <span className="text-muted-foreground line-through">UGX{product.price.toFixed(2)}</span>
+                      <span className="font-medium text-primary">UGX{product.offerPrice.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-center">
                       {Array.from({ length: 5 }).map((_, i) => (
                         <svg
                           key={i}
-                          className={`h-4 w-4 ${i < product.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
+                          className={`h-4 w-4 UGX{i < product.rating ? "text-yellow-400 fill-yellow-400" : "text-gray-300"}`}
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
                         >
