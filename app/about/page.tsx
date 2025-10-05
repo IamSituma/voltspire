@@ -40,7 +40,7 @@ export default function AboutPage() {
         <div className="text-center mb-10">
           <h2 className="text-3xl font-bold mb-4">Our Values</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto">
-            At PetDo, our core values guide everything we do, from product selection to customer service.
+            At Voltspire, our core values guide everything we do, from product selection to customer service.
           </p>
         </div>
 
