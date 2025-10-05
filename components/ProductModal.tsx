@@ -1,114 +1,63 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
+import React, { createContext, useContext, useState, ReactNode } from "react"
 
-interface Product {
+export type CartItem = {
   id: number
   name: string
-  image: string
-  images?: string[]
   price: number
-  offerPrice: number
-  description?: string
+  image?: string
+  quantity: number
 }
 
-interface ProductModalProps {
-  product: Product | null
-  onClose: () => void
+type CartContextType = {
+  cartItems: CartItem[]
+  addToCart: (item: CartItem) => void
+  removeFromCart: (id: number) => void
+  updateQuantity: (id: number, quantity: number) => void
+  clearCart: () => void
 }
 
-export default function ProductModal({ product, onClose }: ProductModalProps) {
-  const [selectedImage, setSelectedImage] = useState<string>("")
-  const modalRef = useRef<HTMLDivElement | null>(null)
+const CartContext = createContext<CartContextType | undefined>(undefined)
 
-  // Close on Esc key
-  useEffect(() => {
-    const handleEsc = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose()
-    }
-    window.addEventListener("keydown", handleEsc)
-    return () => window.removeEventListener("keydown", handleEsc)
-  }, [onClose])
+export const CartProvider = ({ children }: { children: ReactNode }) => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([])
 
-  // Close on outside click
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
-        onClose()
+  const addToCart = (item: CartItem) => {
+    setCartItems((prev) => {
+      const exists = prev.find((i) => i.id === item.id)
+      if (exists) {
+        return prev.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
+        )
       }
-    }
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [onClose])
+      return [...prev, item]
+    })
+  }
 
-  if (!product) return null
+  const removeFromCart = (id: number) => {
+    setCartItems((prev) => prev.filter((item) => item.id !== id))
+  }
+
+  const updateQuantity = (id: number, quantity: number) => {
+    setCartItems((prev) =>
+      prev.map((item) =>
+        item.id === id ? { ...item, quantity: quantity > 0 ? quantity : 1 } : item
+      )
+    )
+  }
+
+  const clearCart = () => setCartItems([])
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
-      <div
-        ref={modalRef}
-        className="bg-white rounded-2xl shadow-xl w-full max-w-5xl h-[70vh] flex flex-col md:flex-row overflow-hidden animate-in fade-in duration-300"
-      >
-        {/* Left: Images Section */}
-        <div className="md:w-1/2 h-full p-4 flex flex-col items-center border-r overflow-y-auto">
-          <div className="w-full h-[60%] relative mb-4">
-            <Image
-              src={selectedImage || product.image}
-              alt={product.name}
-              fill
-              className="object-cover rounded-lg"
-            />
-          </div>
-
-          {product.images && product.images.length > 0 && (
-            <div className="flex gap-3 flex-wrap justify-center">
-              {product.images.map((img, i) => (
-                <div
-                  key={i}
-                  onClick={() => setSelectedImage(img)}
-                  className={`w-20 h-20 relative cursor-pointer rounded-lg overflow-hidden border ${
-                    selectedImage === img ? "border-primary" : "border-gray-300"
-                  }`}
-                >
-                  <Image
-                    src={img}
-                    alt={`${product.name} ${i}`}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* Right: Info Section */}
-        <div className="md:w-1/2 h-full p-6 flex flex-col justify-between overflow-y-auto">
-          <div>
-            <h2 className="text-3xl font-bold mb-3">{product.name}</h2>
-            <p className="text-muted-foreground mb-6 leading-relaxed">
-              {product.description ||
-                "This is a high-quality product designed to deliver reliable performance and durability."}
-            </p>
-
-            <div className="flex gap-3 mb-8 items-center">
-              <span className="text-gray-500 line-through text-lg">
-                UGX {product.price.toLocaleString()}
-              </span>
-              <span className="text-primary text-2xl font-semibold">
-                UGX {product.offerPrice.toLocaleString()}
-              </span>
-            </div>
-          </div>
-
-          <div className="flex gap-3 mt-auto">
-            <Button className="bg-black text-white w-full h-12 text-lg">Add to Cart</Button>
-            <Button className="bg-yellow-400 text-black w-full h-12 text-lg">Buy Now</Button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}>
+      {children}
+    </CartContext.Provider>
   )
+}
+
+export const useCart = () => {
+  const context = useContext(CartContext)
+  if (!context) throw new Error("useCart must be used within a CartProvider")
+  return context
 }
