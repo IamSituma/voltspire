@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/lib/cart-context"
@@ -17,6 +17,13 @@ interface Product {
 
 export default function ShopPage() {
   const { addToCart } = useCart()
+  const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [searchTerm, setSearchTerm] = useState("")
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
   const categories = [
     "Power Stations",
@@ -29,18 +36,21 @@ export default function ShopPage() {
     "Cables & Adapters",
   ]
 
-  const products: Product[] = [
-    { id: 1, name: "12V LiFePO4 Battery", image: "/images/battery.jpg", price: 35000, offerPrice: 40000, category: "Batteries", description: "High-quality LiFePO4 battery suitable for home and industrial use." },
-    { id: 2, name: "Comfortable Dog Bed", image: "/images/dog-bed.jpg", price: 89999, offerPrice: 69999, category: "Accessories", description: "Soft and comfortable dog bed for all breeds." },
-    { id: 3, name: "Interactive Dog Toy", image: "/images/power01.jpg", price: 24999, offerPrice: 19999, category: "Power Stations", description: "Portable power station for indoor and outdoor use." },
-    { id: 4, name: "Interactive Dog Toy", image: "/images/power02.jpg", price: 24999, offerPrice: 19999, category: "Power Stations", description: "Another model of portable power station." },
-    { id: 5, name: "Lighting Bulb - Screw", image: "/images/bulb1.jpg", price: 34999, offerPrice: 29999, category: "Lighting", description: "Energy-efficient lighting bulb for home or office." },
-    { id: 6, name: "Slimline Notebook Combination Lock", image: "/images/lock.jpg", price: 19999, offerPrice: 15999, category: "Cables & Adapters", description: "Compact lock to secure your notebooks and laptops." },
-  ]
-
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [searchTerm, setSearchTerm] = useState("")
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await fetch("/api/products")
+        if (!res.ok) throw new Error("Failed to fetch products")
+        const data: Product[] = await res.json()
+        setProducts(data)
+      } catch (err: any) {
+        setError(err.message || "An error occurred")
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchProducts()
+  }, [])
 
   const toggleCategory = (category: string) => {
     setSelectedCategories((prev) =>
@@ -49,10 +59,14 @@ export default function ShopPage() {
   }
 
   const filteredProducts = products.filter((product) => {
-    const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.category)
+    const matchesCategory =
+      selectedCategories.length === 0 || selectedCategories.includes(product.category)
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase())
     return matchesCategory && matchesSearch
   })
+
+  if (loading) return <p className="text-center mt-8">Loading products...</p>
+  if (error) return <p className="text-center mt-8 text-red-500">{error}</p>
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12 flex flex-col md:flex-row gap-6">

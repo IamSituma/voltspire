@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function POST(req: Request) {
-  const { itemIds } = await req.json();
+  const { itemIds }: { itemIds: number[] } = await req.json(); // type itemIds
 
   if (!itemIds || !Array.isArray(itemIds) || itemIds.length === 0) {
     return NextResponse.json({ error: "No items provided" }, { status: 400 });
@@ -19,14 +19,14 @@ export async function POST(req: Request) {
   }
 
   // Calculate total
-  const totalAmount = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  const totalAmount = items.reduce((sum: number, item: typeof items[number]) => sum + item.price * item.quantity, 0);
 
   // Create order
   const order = await prisma.order.create({
     data: {
       totalAmount,
       items: {
-        connect: items.map((item) => ({ id: item.id })),
+        connect: items.map((item: typeof items[number]) => ({ id: item.id })),
       },
     },
     include: { items: true },
