@@ -1,72 +1,52 @@
 "use client"
 
-import { createContext, useContext, useState, useEffect } from "react"
+import { createContext, useContext, useState, ReactNode } from "react"
 
-export interface Product {
+interface CartItem {
   id: number
   name: string
+  image?: string
   price: number
-  image: string
   quantity: number
 }
 
 interface CartContextType {
-  cartItems: Product[]
-  addToCart: (item: Product) => void
+  cartItems: CartItem[]
+  addToCart: (item: CartItem) => void
   removeFromCart: (id: number) => void
   updateQuantity: (id: number, quantity: number) => void
-  clearCart: () => void
-  cartCount: number
-  cartTotal: number
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
-export const CartProvider = ({ children }: { children: React.ReactNode }) => {
-  const [cartItems, setCartItems] = useState<Product[]>([])
+export const CartProvider = ({ children }: { children: ReactNode }) => {
+  const [cartItems, setCartItems] = useState<CartItem[]>([])
 
-  useEffect(() => {
-    const stored = localStorage.getItem("cart")
-    if (stored) setCartItems(JSON.parse(stored))
-  }, [])
-
-  useEffect(() => {
-    localStorage.setItem("cart", JSON.stringify(cartItems))
-  }, [cartItems])
-
-  const addToCart = (item: Product) => {
+  const addToCart = (item: CartItem) => {
     setCartItems((prev) => {
-      const existing = prev.find((p) => p.id === item.id)
-      if (existing) {
-        return prev.map((p) =>
-          p.id === item.id ? { ...p, quantity: p.quantity + 1 } : p
+      const exists = prev.find((i) => i.id === item.id)
+      if (exists) {
+        return prev.map((i) =>
+          i.id === item.id ? { ...i, quantity: i.quantity + item.quantity } : i
         )
       }
-      return [...prev, { ...item, quantity: 1 }]
+      return [...prev, item]
     })
   }
 
   const removeFromCart = (id: number) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id))
+    setCartItems((prev) => prev.filter((i) => i.id !== id))
   }
 
   const updateQuantity = (id: number, quantity: number) => {
+    if (quantity < 1) return
     setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, quantity: Math.max(1, quantity) } : item
-      )
+      prev.map((i) => (i.id === id ? { ...i, quantity } : i))
     )
   }
 
-  const clearCart = () => setCartItems([])
-
-  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0)
-  const cartTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-
   return (
-    <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart, cartCount, cartTotal }}
-    >
+    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity }}>
       {children}
     </CartContext.Provider>
   )

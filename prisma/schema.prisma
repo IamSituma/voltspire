@@ -1,0 +1,38 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Product {
+  id          Int        @id @default(autoincrement())
+  name        String
+  image       String
+  price       Float      // in UGX
+  offerPrice  Float
+  category    String
+  description String?    // added description field
+  cartItems   CartItem[]
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  order     Order?   @relation(fields: [orderId], references: [id], name: "OrderItems")
+  orderId   Int?
+  product   Product  @relation(fields: [productId], references: [id])
+  productId Int
+  quantity  Int      @default(1)
+  price     Float    // snapshot of product price at order time
+  createdAt DateTime @default(now())
+}
+
+model Order {
+  id          Int        @id @default(autoincrement())
+  items       CartItem[] @relation("OrderItems")
+  totalAmount Float
+  status      String     @default("pending")
+  createdAt   DateTime   @default(now())
+}

@@ -12,10 +12,12 @@ interface Product {
   price: number
   offerPrice: number
   category: string
+  description: string
 }
 
 export default function ShopPage() {
   const { addToCart } = useCart()
+
   const categories = [
     "Power Stations",
     "Power Banks",
@@ -28,16 +30,17 @@ export default function ShopPage() {
   ]
 
   const products: Product[] = [
-    { id: 1, name: "12V LiFePO4 Battery", image: "images/battery.jpg", price: 35000, offerPrice: 40000, category: "Batteries" },
-    { id: 2, name: "Comfortable Dog Bed", image: "images/dog-bed.jpg", price: 89999, offerPrice: 69999, category: "Accessories" },
-    { id: 3, name: "Interactive Dog Toy", image: "images/power01.jpg", price: 24999, offerPrice: 19999, category: "Power Stations" },
-    { id: 4, name: "Interactive Dog Toy", image: "images/power02.jpg", price: 24999, offerPrice: 19999, category: "Power Stations" },
-    { id: 5, name: "Lighting Bulb - Screw", image: "images/bulb1.jpg", price: 34999, offerPrice: 29999, category: "Lighting" },
-    { id: 6, name: "Slimline Notebook Combination Lock", image: "images/lock.jpg", price: 19999, offerPrice: 15999, category: "Cables & Adapters" },
+    { id: 1, name: "12V LiFePO4 Battery", image: "/images/battery.jpg", price: 35000, offerPrice: 40000, category: "Batteries", description: "High-quality LiFePO4 battery suitable for home and industrial use." },
+    { id: 2, name: "Comfortable Dog Bed", image: "/images/dog-bed.jpg", price: 89999, offerPrice: 69999, category: "Accessories", description: "Soft and comfortable dog bed for all breeds." },
+    { id: 3, name: "Interactive Dog Toy", image: "/images/power01.jpg", price: 24999, offerPrice: 19999, category: "Power Stations", description: "Portable power station for indoor and outdoor use." },
+    { id: 4, name: "Interactive Dog Toy", image: "/images/power02.jpg", price: 24999, offerPrice: 19999, category: "Power Stations", description: "Another model of portable power station." },
+    { id: 5, name: "Lighting Bulb - Screw", image: "/images/bulb1.jpg", price: 34999, offerPrice: 29999, category: "Lighting", description: "Energy-efficient lighting bulb for home or office." },
+    { id: 6, name: "Slimline Notebook Combination Lock", image: "/images/lock.jpg", price: 19999, offerPrice: 15999, category: "Cables & Adapters", description: "Compact lock to secure your notebooks and laptops." },
   ]
 
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [searchTerm, setSearchTerm] = useState("")
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null)
 
   const toggleCategory = (category: string) => {
     setSelectedCategories((prev) =>
@@ -90,8 +93,14 @@ export default function ShopPage() {
           <p className="text-center col-span-full">No products found.</p>
         ) : (
           filteredProducts.map((product) => (
-            <div key={product.id} className="border rounded-lg p-4 flex flex-col">
-              <div className="aspect-square overflow-hidden rounded-lg bg-background mb-4">
+            <div
+              key={product.id}
+              className="border rounded-lg p-4 flex flex-col hover:shadow-md transition"
+            >
+              <div
+                className="aspect-square overflow-hidden rounded-lg bg-background mb-4 cursor-pointer"
+                onClick={() => setSelectedProduct(product)}
+              >
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -127,6 +136,60 @@ export default function ShopPage() {
           ))
         )}
       </main>
+
+      {/* Product Description Modal */}
+      {selectedProduct && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg max-w-4xl w-full relative flex flex-col md:flex-row gap-6">
+            <button
+              onClick={() => setSelectedProduct(null)}
+              className="absolute top-2 right-2 text-black font-bold text-2xl"
+            >
+              ×
+            </button>
+            {/* Left: Image */}
+            <div className="md:w-1/2">
+              <Image
+                src={selectedProduct.image}
+                alt={selectedProduct.name}
+                width={500}
+                height={500}
+                className="rounded-lg object-cover w-full h-full"
+              />
+            </div>
+            {/* Right: Details */}
+            <div className="md:w-1/2 flex flex-col justify-between">
+              <div>
+                <h2 className="text-2xl font-bold mb-2">{selectedProduct.name}</h2>
+                <p className="mb-4">{selectedProduct.description}</p>
+                <p className="text-xl font-semibold mb-4">
+                  UGX {selectedProduct.offerPrice.toLocaleString()}
+                </p>
+              </div>
+              <div className="flex gap-2 mt-auto">
+                <Button
+                  onClick={() => {
+                    addToCart({ ...selectedProduct, quantity: 1 })
+                    setSelectedProduct(null)
+                  }}
+                  className="bg-black text-white w-full"
+                >
+                  Add to Cart
+                </Button>
+                <Button
+                  onClick={() => {
+                    addToCart({ ...selectedProduct, quantity: 1 })
+                    setSelectedProduct(null)
+                  }}
+                  className="bg-yellow-400 text-black w-full"
+                >
+                  Buy Now
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

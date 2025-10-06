@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/lib/cart-context"
+import { useState } from "react"
 
 interface Product {
   id: number
@@ -15,6 +16,7 @@ interface Product {
 
 export default function CartPage() {
   const { cartItems, removeFromCart, updateQuantity } = useCart()
+  const [loadingIds, setLoadingIds] = useState<number[]>([])
 
   // Calculate totals
   const subtotal = cartItems.reduce(
@@ -24,6 +26,19 @@ export default function CartPage() {
   const shipping = cartItems.length ? 5000 : 0
   const tax = Math.round(subtotal * 0.18)
   const total = subtotal + shipping + tax
+
+  const handleUpdateQuantity = async (item: Product, newQty: number) => {
+    if (newQty < 1) return
+    setLoadingIds((prev) => [...prev, item.id])
+    await updateQuantity(item.id, newQty)
+    setLoadingIds((prev) => prev.filter((id) => id !== item.id))
+  }
+
+  const handleRemove = async (id: number) => {
+    setLoadingIds((prev) => [...prev, id])
+    await removeFromCart(id)
+    setLoadingIds((prev) => prev.filter((i) => i !== id))
+  }
 
   if (!cartItems || cartItems.length === 0) {
     return (
@@ -42,55 +57,61 @@ export default function CartPage() {
       <div className="grid md:grid-cols-3 gap-8">
         {/* Cart Items */}
         <div className="md:col-span-2 space-y-4">
-          {cartItems.map((item: Product) => (
-            <div key={item.id} className="flex items-center justify-between border p-4 rounded-md">
-              <div className="flex items-center gap-4">
-                <div className="relative h-20 w-20">
-                  <Image
-                    src={item.image || "/placeholder.svg"}
-                    alt={item.name}
-                    fill
-                    className="object-cover rounded"
-                  />
+          {cartItems.map((item: Product) => {
+            const isLoading = loadingIds.includes(item.id)
+            return (
+              <div key={item.id} className="flex items-center justify-between border p-4 rounded-md">
+                <div className="flex items-center gap-4">
+                  <div className="relative h-20 w-20">
+                    <Image
+                      src={item.image || "/placeholder.svg"}
+                      alt={item.name}
+                      fill
+                      className="object-cover rounded"
+                    />
+                  </div>
+                  <div>
+                    <h3 className="font-semibold">{item.name}</h3>
+                    <p className="text-sm text-muted-foreground">
+                      UGX {(item.price || 0).toLocaleString()}
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="font-semibold">{item.name}</h3>
-                  <p className="text-sm text-muted-foreground">
-                    UGX {(item.price || 0).toLocaleString()}
-                  </p>
-                </div>
-              </div>
-              <div className="flex items-center gap-4">
-                <div className="flex items-center">
+                <div className="flex items-center gap-4">
+                  <div className="flex items-center">
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={isLoading || item.quantity <= 1}
+                      onClick={() => handleUpdateQuantity(item, item.quantity - 1)}
+                    >
+                      {isLoading ? "Updating..." : "-"}
+                    </Button>
+                    <span className="px-3">{item.quantity}</span>
+                    <Button
+                      size="sm"
+                      variant="outline"
+                      disabled={isLoading}
+                      onClick={() => handleUpdateQuantity(item, item.quantity + 1)}
+                    >
+                      {isLoading ? "Updating..." : "+"}
+                    </Button>
+                  </div>
+                  <span className="font-semibold">
+                    UGX {((item.price || 0) * (item.quantity || 0)).toLocaleString()}
+                  </span>
                   <Button
                     size="sm"
-                    variant="outline"
-                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                    variant="destructive"
+                    disabled={isLoading}
+                    onClick={() => handleRemove(item.id)}
                   >
-                    -
-                  </Button>
-                  <span className="px-3">{item.quantity}</span>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                  >
-                    +
+                    {isLoading ? "Removing..." : "Remove"}
                   </Button>
                 </div>
-                <span className="font-semibold">
-                  UGX {((item.price || 0) * (item.quantity || 0)).toLocaleString()}
-                </span>
-                <Button
-                  size="sm"
-                  variant="destructive"
-                  onClick={() => removeFromCart(item.id)}
-                >
-                  Remove
-                </Button>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Order Summary */}
