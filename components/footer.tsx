@@ -138,13 +138,13 @@ export default function Footer() {
               &copy; {new Date().getFullYear()} Voltspire. All Rights Reserved.
             </p>
             <div className="flex gap-4">
-              <Link href="#" className="text-xs text-muted-foreground hover:text-primary">
+              <Link href="/privacy-policy" className="text-xs text-muted-foreground hover:text-primary">
                 Privacy Policy
               </Link>
-              <Link href="#" className="text-xs text-muted-foreground hover:text-primary">
+              <Link href="/terms-of-service" className="text-xs text-muted-foreground hover:text-primary">
                 Terms of Service
               </Link>
-              <Link href="#" className="text-xs text-muted-foreground hover:text-primary">
+              <Link href="/cookie-policy" className="text-xs text-muted-foreground hover:text-primary">
                 Cookies Policy
               </Link>
             </div>
