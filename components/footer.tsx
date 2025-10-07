@@ -135,7 +135,7 @@ export default function Footer() {
         <div className="mt-8 border-t pt-8">
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-muted-foreground">
-              &copy; {new Date().getFullYear()} Voltspire. All Rights Reserved.
+              &copy; {new Date().getFullYear()} Voltspire, Member of Soulspire Group. All Rights Reserved.
             </p>
             <div className="flex gap-4">
               <Link href="/privacy-policy" className="text-xs text-muted-foreground hover:text-primary">
