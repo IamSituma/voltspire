@@ -1,6 +1,7 @@
 import Image from "next/image"
 import Link from "next/link"
 
+
 export default function Footer() {
   return (
     <footer className="border-t bg-background">
@@ -107,7 +108,7 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="text-sm font-medium">Support</h3>
             <nav className="flex flex-col space-y-2">
-              <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+              <Link href="/help-center" className="text-sm text-muted-foreground hover:text-primary">
                 Help Center
               </Link>
               <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">
