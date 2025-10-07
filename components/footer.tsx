@@ -117,7 +117,7 @@ export default function Footer() {
               <Link href="/returns-and-refunds" className="text-sm text-muted-foreground hover:text-primary">
                 Returns & Refunds
               </Link>
-              <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+              <Link href="/delivery-information" className="text-sm text-muted-foreground hover:text-primary">
                 Delivery Information
               </Link>
             </nav>
