@@ -32,7 +32,7 @@ export default function CheckoutPage() {
   const [notes, setNotes] = useState("")
   const [paymentMethod, setPaymentMethod] = useState<"" | "Card" | "Mobile" | "Cash">("")
 
-  const [mobileProvider, setMobileProvider] = useState("mtn")
+  const [mobileProvider, setMobileProvider] = useState<"MTN" | "Airtel">("MTN")
   const [mobileNumber, setMobileNumber] = useState("")
 
   // Card fields
@@ -49,6 +49,24 @@ export default function CheckoutPage() {
   const tax = Math.round(subtotal * 0.18)
   const total = subtotal + shipping + tax
 
+  // Mobile prefixes
+  const mtnPrefixes = ["077", "078", "076", "079"]
+  const AirtelPrefixes = ["070", "074", "075"]
+
+  // Real-time mobile number validation
+  const handleMobileNumberChange = (value: string) => {
+    let digits = value.replace(/\D/g, "")
+    if (digits.length > 10) digits = digits.slice(0, 10)
+    const prefix = digits.slice(0, 3)
+    if (mobileProvider === "MTN" && digits.length > 0 && !mtnPrefixes.includes(prefix)) {
+      digits = prefix
+    }
+    if (mobileProvider === "Airtel" && digits.length > 0 && !AirtelPrefixes.includes(prefix)) {
+      digits = prefix
+    }
+    setMobileNumber(digits)
+  }
+
   // Handle place order
   const handlePlaceOrder = () => {
     if (!firstName || !lastName || !phone || !address || !paymentMethod) {
@@ -61,12 +79,26 @@ export default function CheckoutPage() {
       return
     }
 
-    if (paymentMethod === "Mobile" && (!mobileNumber || !mobileProvider)) {
-      alert("Please fill in your mobile money details")
-      return
+    if (paymentMethod === "Mobile") {
+      if (!mobileNumber || !mobileProvider) {
+        alert("Please fill in your mobile money details")
+        return
+      }
+      if (mobileNumber.length !== 10) {
+        alert("Mobile number must be exactly 10 digits")
+        return
+      }
+      const prefix = mobileNumber.slice(0, 3)
+      if (mobileProvider === "MTN" && !mtnPrefixes.includes(prefix)) {
+        alert("MTN Mobile Money number must start with 077, 078, 076, or 079")
+        return
+      }
+      if (mobileProvider === "Airtel" && !AirtelPrefixes.includes(prefix)) {
+        alert("Airtel Mobile Money number must start with 070, 074, or 075")
+        return
+      }
     }
 
-    // Save checkout data in context
     setCheckoutData({
       shippingInfo: { firstName, lastName, phone, address, notes },
       paymentInfo: {
@@ -81,7 +113,6 @@ export default function CheckoutPage() {
       items: cartItems,
     })
 
-    // Navigate to review page
     router.push("/checkout/review")
   }
 
@@ -204,13 +235,18 @@ export default function CheckoutPage() {
                 <div className="grid gap-4">
                   <div>
                     <Label htmlFor="mobile-provider">Select Provider</Label>
-                    <Select value={mobileProvider} onValueChange={setMobileProvider}>
+                    <Select
+                      value={mobileProvider}
+                      onValueChange={(value) =>
+                        setMobileProvider(value as "MTN" | "Airtel")
+                      }
+                    >
                       <SelectTrigger id="mobile-provider">
                         <SelectValue placeholder="Select Provider" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="mtn">MTN Mobile Money</SelectItem>
-                        <SelectItem value="airtel">Airtel Mobile Money</SelectItem>
+                        <SelectItem value="MTN">MTN Mobile Money</SelectItem>
+                        <SelectItem value="Airtel">Airtel Mobile Money</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -219,9 +255,9 @@ export default function CheckoutPage() {
                     <Input
                       id="mobile-number"
                       type="tel"
-                      placeholder="0700 000 000"
+                      placeholder="0770000000"
                       value={mobileNumber}
-                      onChange={(e) => setMobileNumber(e.target.value)}
+                      onChange={(e) => handleMobileNumberChange(e.target.value)}
                     />
                   </div>
                 </div>
