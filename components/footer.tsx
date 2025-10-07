@@ -114,7 +114,7 @@ export default function Footer() {
               <Link href="/contact" className="text-sm text-muted-foreground hover:text-primary">
                 Contact Us
               </Link>
-              <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
+              <Link href="/returns-and-refunds" className="text-sm text-muted-foreground hover:text-primary">
                 Returns & Refunds
               </Link>
               <Link href="#" className="text-sm text-muted-foreground hover:text-primary">
