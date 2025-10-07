@@ -43,7 +43,7 @@ export default function ReturnsAndRefundsPage() {
       <div className="grid md:grid-cols-2 gap-6">
         {returnsPolicy.map((policy, index) => (
           <Card key={index} className="hover:shadow-lg transition-shadow">
-            <CardContent>
+            <CardContent className="p-6">
               <CardTitle className="text-lg font-semibold">{policy.title}</CardTitle>
               <CardDescription>{policy.description}</CardDescription>
             </CardContent>
@@ -56,7 +56,7 @@ export default function ReturnsAndRefundsPage() {
       <div className="text-center max-w-2xl mx-auto">
         <h2 className="text-2xl font-semibold mb-4">Need Help?</h2>
         <p>
-          If you have questions or need assistance with a return or refund, please visit our Help Center or contact our support team.
+          If you have questions or need assistance with a return or refund, please visit our Help Center or Contact our Support Team.
         </p>
       </div>
     </div>

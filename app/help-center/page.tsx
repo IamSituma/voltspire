@@ -56,7 +56,7 @@ export default function HelpCenterPage() {
       <div className="grid md:grid-cols-2 gap-6 mb-12">
         {faqs.map((faq, index) => (
           <Card key={index} className="hover:shadow-lg transition-shadow">
-            <CardContent>
+            <CardContent className="p-6">
               <CardTitle className="text-lg font-semibold">{faq.question}</CardTitle>
               <CardDescription>{faq.answer}</CardDescription>
             </CardContent>
@@ -69,7 +69,7 @@ export default function HelpCenterPage() {
       {/* Contact Form */}
       <div className="max-w-2xl mx-auto">
         <Card>
-          <CardContent>
+          <CardContent className="p-6">
             <h2 className="text-2xl font-semibold mb-4">Contact Support</h2>
             {submitted && (
               <p className="text-green-600 mb-4">Your message has been sent. We'll get back to you shortly!</p>

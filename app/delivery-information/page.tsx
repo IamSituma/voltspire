@@ -71,7 +71,7 @@ export default function DeliveryInformationPage() {
           const Icon = info.icon
           return (
             <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardContent>
+              <CardContent className="p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <Icon className="w-6 h-6 text-primary" />
                   <CardTitle className="text-lg font-semibold">{info.title}</CardTitle>
@@ -99,7 +99,7 @@ export default function DeliveryInformationPage() {
       <div className="text-center max-w-2xl mx-auto">
         <h2 className="text-2xl font-semibold mb-4">Need Assistance?</h2>
         <p>
-          If you have any questions or concerns about delivery, please visit our Help Center or contact our support team for immediate assistance.
+          If you have any questions or concerns about delivery, please visit our Help Center or Contact our Support Team for immediate assistance.
         </p>
       </div>
     </div>
