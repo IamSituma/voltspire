@@ -1,215 +1,121 @@
 "use client"
-import Image from "next/image"
-import Link from "next/link"
-import { CreditCard, Edit2 } from "lucide-react"
 
+import { useEffect } from "react"
+import Link from "next/link"
+import { useRouter } from "next/navigation"
+import { Check } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent } from "@/components/ui/card"
+import { useCheckout } from "@/lib/checkout-context"
+import { useCart } from "@/lib/cart-context"
 
-export default function ReviewOrderPage() {
-  const cartItems = [
-    {
-      id: 1,
-      name: "Premium Dog Food",
-      image:
-        "https://images.unsplash.com/photo-1589924691995-400dc9ecc119?q=80&w=2071&auto=format&fit=crop&ixlib=rb-4.0.3",
-      price: 39.99,
-      quantity: 2,
-    },
-    {
-      id: 2,
-      name: "Comfortable Dog Bed",
-      image:
-        "https://images.unsplash.com/photo-1541599468348-e96984315921?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
-      price: 69.99,
-      quantity: 1,
-    },
-    {
-      id: 3,
-      name: "Interactive Dog Toy",
-      image:
-        "https://images.unsplash.com/photo-1575425186775-b8de9a427e67?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3",
-      price: 19.99,
-      quantity: 3,
-    },
-  ]
+export default function ReviewPage() {
+  const { checkoutData, resetCheckout } = useCheckout()
+  const { clearCart } = useCart()
+  const router = useRouter()
 
-  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const shipping = 5.99
-  const tax = subtotal * 0.08
-  const total = subtotal + shipping + tax
+  // Redirect to checkout if no data exists
+  useEffect(() => {
+    if (!checkoutData) {
+      router.push("/checkout")
+    }
+  }, [checkoutData, router])
 
-  const shippingInfo = {
-    name: "John Doe",
-    address: "123 Main St, Apt 4B",
-    city: "New York",
-    state: "NY",
-    zip: "10001",
-    country: "United States",
-    email: "john.doe@example.com",
-    phone: "(123) 456-7890",
-  }
+  if (!checkoutData) return null // Prevent render if no checkout data
 
-  const paymentInfo = {
-    method: "Credit Card",
-    cardNumber: "**** **** **** 4242",
-    expiry: "12/25",
-    nameOnCard: "John Doe",
+  const { shippingInfo, paymentInfo, totals, items } = checkoutData
+  const orderNumber = `PD-${Math.floor(Math.random() * 100000000).toString().padStart(8, "0")}`
+  const orderDate = new Date().toLocaleDateString()
+
+  // Optional: Clear checkout and cart if order is finalized
+  const handleConfirmOrder = () => {
+    resetCheckout()
+    clearCart()
+    router.push("/checkout/success")
   }
 
   return (
-    <div className="container px-4 py-8 md:px-6 md:py-12">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Review Your Order</h1>
-        <div className="flex items-center text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-primary">
-            Home
-          </Link>
-          <span className="mx-2">/</span>
-          <Link href="/cart" className="hover:text-primary">
-            Cart
-          </Link>
-          <span className="mx-2">/</span>
-          <Link href="/checkout" className="hover:text-primary">
-            Checkout
-          </Link>
-          <span className="mx-2">/</span>
-          <span>Review</span>
+    <div className="container px-4 py-8 md:px-6 md:py-12 max-w-4xl mx-auto space-y-8">
+      <div className="text-center">
+        <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 text-primary mb-4">
+          <Check className="h-8 w-8" />
         </div>
+        <h1 className="text-3xl font-bold mb-2">Review Your Order</h1>
+        <p className="text-muted-foreground">
+          Please confirm your order details below before finalizing your purchase.
+        </p>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-8">
-        <div className="md:col-span-2 space-y-8">
-          {/* Shipping Information */}
-          <div className="bg-card rounded-lg border p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Shipping Information</h2>
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/checkout" className="flex items-center gap-1 text-primary">
-                  <Edit2 className="h-4 w-4" />
-                  Edit
-                </Link>
-              </Button>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {/* Order Info */}
+      <Card>
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
+          {items.length === 0 && <p>Your cart is empty.</p>}
+          {items.map((item) => (
+            <div key={item.id} className="flex justify-between mb-2">
               <div>
-                <h3 className="font-medium mb-2">Contact Information</h3>
-                <p className="text-sm">{shippingInfo.email}</p>
-                <p className="text-sm">{shippingInfo.phone}</p>
+                {item.name} x {item.quantity}
               </div>
-              <div>
-                <h3 className="font-medium mb-2">Shipping Address</h3>
-                <p className="text-sm">{shippingInfo.name}</p>
-                <p className="text-sm">{shippingInfo.address}</p>
-                <p className="text-sm">
-                  {shippingInfo.city}, {shippingInfo.state} {shippingInfo.zip}
-                </p>
-                <p className="text-sm">{shippingInfo.country}</p>
-              </div>
+              <div>UGX {(item.price * item.quantity).toLocaleString()}</div>
             </div>
+          ))}
+
+          <Separator className="my-2" />
+
+          <div className="flex justify-between">
+            <span>Subtotal</span>
+            <span>UGX {totals.subtotal.toLocaleString()}</span>
           </div>
-
-          {/* Payment Method */}
-          <div className="bg-card rounded-lg border p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Payment Method</h2>
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/checkout" className="flex items-center gap-1 text-primary">
-                  <Edit2 className="h-4 w-4" />
-                  Edit
-                </Link>
-              </Button>
-            </div>
-            <div className="flex items-center gap-3">
-              <CreditCard className="h-5 w-5" />
-              <div>
-                <p className="font-medium">{paymentInfo.method}</p>
-                <p className="text-sm text-muted-foreground">
-                  {paymentInfo.cardNumber} | Expires: {paymentInfo.expiry}
-                </p>
-              </div>
-            </div>
+          <div className="flex justify-between">
+            <span>Shipping</span>
+            <span>UGX {totals.shipping.toLocaleString()}</span>
           </div>
-
-          {/* Order Items */}
-          <div className="bg-card rounded-lg border p-6">
-            <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-semibold">Order Items</h2>
-              <Button variant="ghost" size="sm" asChild>
-                <Link href="/cart" className="flex items-center gap-1 text-primary">
-                  <Edit2 className="h-4 w-4" />
-                  Edit
-                </Link>
-              </Button>
-            </div>
-            <div className="space-y-4">
-              {cartItems.map((item) => (
-                <div key={item.id} className="flex gap-4">
-                  <div className="relative h-20 w-20 rounded-md overflow-hidden flex-shrink-0">
-                    <Image src={item.image || "/placeholder.svg"} alt={item.name} fill className="object-cover" />
-                  </div>
-                  <div className="flex-1">
-                    <h4 className="font-medium">{item.name}</h4>
-                    <p className="text-sm text-muted-foreground">Quantity: {item.quantity}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="font-medium">${(item.price * item.quantity).toFixed(2)}</p>
-                    <p className="text-sm text-muted-foreground">${item.price.toFixed(2)} each</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+          <div className="flex justify-between">
+            <span>Tax (18%)</span>
+            <span>UGX {totals.tax.toLocaleString()}</span>
           </div>
-        </div>
-
-        {/* Order Summary */}
-        <div>
-          <div className="sticky top-20">
-            <Card>
-              <CardContent className="p-6">
-                <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
-
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Shipping</span>
-                    <span>${shipping.toFixed(2)}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">Tax</span>
-                    <span>${tax.toFixed(2)}</span>
-                  </div>
-                  <Separator />
-                  <div className="flex items-center justify-between font-medium text-lg">
-                    <span>Total</span>
-                    <span>${total.toFixed(2)}</span>
-                  </div>
-
-                  <div className="pt-4">
-                    <Button className="w-full" size="lg" asChild>
-                      <Link href="/checkout/success">Place Order</Link>
-                    </Button>
-                  </div>
-
-                  <p className="text-xs text-center text-muted-foreground pt-4">
-                    By placing your order, you agree to our{" "}
-                    <Link href="#" className="underline hover:text-primary">
-                      Terms of Service
-                    </Link>{" "}
-                    and{" "}
-                    <Link href="#" className="underline hover:text-primary">
-                      Privacy Policy
-                    </Link>
-                  </p>
-                </div>
-              </CardContent>
-            </Card>
+          <Separator className="my-2" />
+          <div className="flex justify-between font-bold text-lg">
+            <span>Total</span>
+            <span>UGX {totals.total.toLocaleString()}</span>
           </div>
-        </div>
+        </CardContent>
+      </Card>
+
+      {/* Shipping Info */}
+      <Card>
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Shipping Information</h2>
+          <p>
+            {shippingInfo.firstName} {shippingInfo.lastName}
+          </p>
+          <p>{shippingInfo.phone}</p>
+          <p>{shippingInfo.address}</p>
+          {shippingInfo.notes && <p>Notes: {shippingInfo.notes}</p>}
+        </CardContent>
+      </Card>
+
+      {/* Payment Info */}
+      <Card>
+        <CardContent className="p-6">
+          <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
+          <p>Method: {paymentInfo.method}</p>
+          {paymentInfo.method === "Mobile" && (
+            <>
+              <p>Provider: {paymentInfo.provider}</p>
+              <p>Number: {paymentInfo.number}</p>
+            </>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Confirm Order Button */}
+      <div className="flex justify-center gap-4">
+        <Button onClick={handleConfirmOrder}>Confirm Order</Button>
+        <Button variant="outline" asChild>
+          <Link href="/checkout">Edit Details</Link>
+        </Button>
       </div>
     </div>
   )

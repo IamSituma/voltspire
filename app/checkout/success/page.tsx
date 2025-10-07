@@ -1,17 +1,29 @@
+"use client"
+
+import { useEffect } from "react"
 import Link from "next/link"
 import { Check, Package, Truck, Calendar } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent } from "@/components/ui/card"
+import { useCheckout } from "@/lib/checkout-context"
 
 export default function OrderSuccessPage() {
+  const { resetCheckout } = useCheckout()
+
+  // 🧹 Clear checkout data after success
+  useEffect(() => {
+    resetCheckout()
+  }, [resetCheckout])
+
   const orderNumber = "PD-12345678"
   const orderDate = new Date().toLocaleDateString()
   const estimatedDelivery = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toLocaleDateString()
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12 max-w-3xl mx-auto">
+      {/* ✅ Success Icon and Title */}
       <div className="text-center mb-8">
         <div className="inline-flex items-center justify-center h-16 w-16 rounded-full bg-primary/10 text-primary mb-4">
           <Check className="h-8 w-8" />
@@ -22,6 +34,7 @@ export default function OrderSuccessPage() {
         </p>
       </div>
 
+      {/* ✅ Order Summary Card */}
       <Card className="mb-8">
         <CardContent className="p-6">
           <div className="grid gap-4">
@@ -37,6 +50,7 @@ export default function OrderSuccessPage() {
 
             <Separator />
 
+            {/* ✅ Status Steps */}
             <div className="grid gap-6 sm:grid-cols-3">
               <div className="flex flex-col items-center text-center gap-2">
                 <div className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
@@ -66,6 +80,7 @@ export default function OrderSuccessPage() {
         </CardContent>
       </Card>
 
+      {/* ✅ Next Steps */}
       <div className="text-center space-y-4">
         <h2 className="text-xl font-semibold">What's Next?</h2>
         <p className="text-muted-foreground">

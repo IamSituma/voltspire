@@ -2,7 +2,8 @@
 
 import { createContext, useContext, useState, ReactNode } from "react"
 
-interface CartItem {
+// Cart item type
+export interface CartItem {
   id: number
   name: string
   image?: string
@@ -10,11 +11,13 @@ interface CartItem {
   quantity: number
 }
 
-interface CartContextType {
+// Cart context type
+export interface CartContextType {
   cartItems: CartItem[]
   addToCart: (item: CartItem) => void
   removeFromCart: (id: number) => void
   updateQuantity: (id: number, quantity: number) => void
+  clearCart: () => void   // <-- make sure this exists
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
@@ -45,13 +48,20 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     )
   }
 
+  const clearCart = () => {
+    setCartItems([])   // <-- implement clearCart
+  }
+
   return (
-    <CartContext.Provider value={{ cartItems, addToCart, removeFromCart, updateQuantity }}>
+    <CartContext.Provider
+      value={{ cartItems, addToCart, removeFromCart, updateQuantity, clearCart }}
+    >
       {children}
     </CartContext.Provider>
   )
 }
 
+// Hook to use cart context
 export const useCart = () => {
   const context = useContext(CartContext)
   if (!context) throw new Error("useCart must be used within CartProvider")

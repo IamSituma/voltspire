@@ -2,13 +2,13 @@
 
 import { useState } from "react"
 import Image from "next/image"
-import Link from "next/link"
+import { useRouter } from "next/navigation"
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue
+  SelectValue,
 } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -17,13 +17,30 @@ import { Textarea } from "@/components/ui/textarea"
 import { Separator } from "@/components/ui/separator"
 import { Card, CardContent } from "@/components/ui/card"
 import { useCart } from "@/lib/cart-context"
+import { useCheckout } from "@/lib/checkout-context"
 
 export default function CheckoutPage() {
+  const router = useRouter()
   const { cartItems } = useCart()
-  const [paymentMethod, setPaymentMethod] = useState("") // card or mobile
+  const { setCheckoutData } = useCheckout()
+
+  // Delivery & Payment States
+  const [firstName, setFirstName] = useState("")
+  const [lastName, setLastName] = useState("")
+  const [phone, setPhone] = useState("")
+  const [address, setAddress] = useState("")
+  const [notes, setNotes] = useState("")
+  const [paymentMethod, setPaymentMethod] = useState<"" | "Card" | "Mobile" | "Cash">("")
+
   const [mobileProvider, setMobileProvider] = useState("mtn")
   const [mobileNumber, setMobileNumber] = useState("")
 
+  // Card fields
+  const [cardNumber, setCardNumber] = useState("")
+  const [cardCVV, setCardCVV] = useState("")
+  const [cardExpiry, setCardExpiry] = useState("")
+
+  // Calculate totals
   const subtotal = cartItems.reduce(
     (sum, item) => sum + (item.price || 0) * (item.quantity || 0),
     0
@@ -32,15 +49,51 @@ export default function CheckoutPage() {
   const tax = Math.round(subtotal * 0.18)
   const total = subtotal + shipping + tax
 
+  // Handle place order
+  const handlePlaceOrder = () => {
+    if (!firstName || !lastName || !phone || !address || !paymentMethod) {
+      alert("Please fill in all required fields")
+      return
+    }
+
+    if (paymentMethod === "Card" && (!cardNumber || !cardCVV || !cardExpiry)) {
+      alert("Please fill in your card details")
+      return
+    }
+
+    if (paymentMethod === "Mobile" && (!mobileNumber || !mobileProvider)) {
+      alert("Please fill in your mobile money details")
+      return
+    }
+
+    // Save checkout data in context
+    setCheckoutData({
+      shippingInfo: { firstName, lastName, phone, address, notes },
+      paymentInfo: {
+        method: paymentMethod,
+        provider: paymentMethod === "Mobile" ? mobileProvider : undefined,
+        number: paymentMethod === "Mobile" ? mobileNumber : undefined,
+        cardNumber: paymentMethod === "Card" ? cardNumber : undefined,
+        cardCVV: paymentMethod === "Card" ? cardCVV : undefined,
+        cardExpiry: paymentMethod === "Card" ? cardExpiry : undefined,
+      },
+      totals: { subtotal, shipping, tax, total },
+      items: cartItems,
+    })
+
+    // Navigate to review page
+    router.push("/checkout/review")
+  }
+
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
       <h1 className="text-3xl font-bold mb-6">Checkout</h1>
       <div className="grid md:grid-cols-3 gap-8">
-        {/* Left: Cart Summary + Delivery Address + Payment */}
-        <div className="md:col-span-2 space-y-6">
+        {/* Left Section */}
+        <div className="md:col-span-2 space-y-8">
           {/* Order Summary */}
           <Card>
-            <CardContent>
+            <CardContent className="pt-6">
               <h2 className="text-xl font-semibold mb-4">Order Summary</h2>
               {cartItems.length === 0 && <p>Your cart is empty</p>}
               {cartItems.map((item) => (
@@ -69,30 +122,55 @@ export default function CheckoutPage() {
 
           {/* Delivery Address */}
           <Card>
-            <CardContent>
+            <CardContent className="pt-6">
               <h2 className="text-xl font-semibold mb-4">Delivery Address</h2>
               <div className="grid gap-4">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
                     <Label htmlFor="first-name">First Name</Label>
-                    <Input id="first-name" placeholder="John" />
+                    <Input
+                      id="first-name"
+                      value={firstName}
+                      onChange={(e) => setFirstName(e.target.value)}
+                      placeholder="John"
+                    />
                   </div>
                   <div>
                     <Label htmlFor="last-name">Last Name</Label>
-                    <Input id="last-name" placeholder="Doe" />
+                    <Input
+                      id="last-name"
+                      value={lastName}
+                      onChange={(e) => setLastName(e.target.value)}
+                      placeholder="Doe"
+                    />
                   </div>
                 </div>
                 <div>
                   <Label htmlFor="phone">Phone</Label>
-                  <Input id="phone" placeholder="0700 000 000" />
+                  <Input
+                    id="phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    placeholder="0700 000 000"
+                  />
                 </div>
                 <div>
                   <Label htmlFor="address">Address</Label>
-                  <Input id="address" placeholder="123 Main Street" />
+                  <Input
+                    id="address"
+                    value={address}
+                    onChange={(e) => setAddress(e.target.value)}
+                    placeholder="123 Main Street"
+                  />
                 </div>
                 <div>
                   <Label htmlFor="notes">Notes (Optional)</Label>
-                  <Textarea id="notes" placeholder="Special instructions for delivery" />
+                  <Textarea
+                    id="notes"
+                    value={notes}
+                    onChange={(e) => setNotes(e.target.value)}
+                    placeholder="Special instructions for delivery"
+                  />
                 </div>
               </div>
             </CardContent>
@@ -100,44 +178,29 @@ export default function CheckoutPage() {
 
           {/* Payment Method */}
           <Card>
-            <CardContent>
+            <CardContent className="pt-6">
               <h2 className="text-xl font-semibold mb-4">Payment Method</h2>
               <div className="mb-4">
                 <Label htmlFor="payment-method">Choose Payment Method</Label>
-                <Select value={paymentMethod} onValueChange={setPaymentMethod}>
+                <Select
+                  value={paymentMethod}
+                  onValueChange={(value) =>
+                    setPaymentMethod(value as "Card" | "Mobile" | "Cash")
+                  }
+                >
                   <SelectTrigger id="payment-method">
                     <SelectValue placeholder="Select Payment Method" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="card">Visa / Mastercard</SelectItem>
-                    <SelectItem value="mobile">Mobile Money</SelectItem>
+                    <SelectItem value="Card">Visa / Mastercard</SelectItem>
+                    <SelectItem value="Mobile">Mobile Money</SelectItem>
+                    <SelectItem value="Cash">Cash on Delivery</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* Card Payment */}
-              {paymentMethod === "card" && (
-                <div className="grid gap-4">
-                  <div>
-                    <Label htmlFor="card-number">Card Number</Label>
-                    <Input id="card-number" placeholder="1234 5678 9012 3456" />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="expiry">Expiry Date</Label>
-                      <Input id="expiry" placeholder="MM/YY" />
-                    </div>
-                    <div>
-                      <Label htmlFor="cvv">CVV</Label>
-                      <Input id="cvv" placeholder="123" />
-                    </div>
-                  </div>
-                  <Button className="mt-2 w-full">Pay Now</Button>
-                </div>
-              )}
-
               {/* Mobile Money */}
-              {paymentMethod === "mobile" && (
+              {paymentMethod === "Mobile" && (
                 <div className="grid gap-4">
                   <div>
                     <Label htmlFor="mobile-provider">Select Provider</Label>
@@ -161,14 +224,51 @@ export default function CheckoutPage() {
                       onChange={(e) => setMobileNumber(e.target.value)}
                     />
                   </div>
-                  <Button className="mt-2 w-full">Pay Now</Button>
+                </div>
+              )}
+
+              {/* Card Payment */}
+              {paymentMethod === "Card" && (
+                <div className="grid gap-4">
+                  <div>
+                    <Label htmlFor="card-number">Card Number</Label>
+                    <Input
+                      id="card-number"
+                      type="text"
+                      placeholder="1234 5678 9012 3456"
+                      value={cardNumber}
+                      onChange={(e) => setCardNumber(e.target.value)}
+                    />
+                  </div>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <Label htmlFor="card-expiry">Expiry Date</Label>
+                      <Input
+                        id="card-expiry"
+                        type="text"
+                        placeholder="MM/YY"
+                        value={cardExpiry}
+                        onChange={(e) => setCardExpiry(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="card-cvv">CVV</Label>
+                      <Input
+                        id="card-cvv"
+                        type="text"
+                        placeholder="123"
+                        value={cardCVV}
+                        onChange={(e) => setCardCVV(e.target.value)}
+                      />
+                    </div>
+                  </div>
                 </div>
               )}
             </CardContent>
           </Card>
         </div>
 
-        {/* Right: Totals */}
+        {/* Right Section: Totals */}
         <div>
           <div className="sticky top-20 border rounded p-4 space-y-4">
             <h2 className="text-xl font-semibold mb-4">Totals</h2>
@@ -189,8 +289,9 @@ export default function CheckoutPage() {
               <span>Total</span>
               <span>UGX {total.toLocaleString()}</span>
             </div>
-            <Button className="w-full mt-2" asChild>
-              <Link href="/checkout/review">Place Order</Link>
+
+            <Button className="w-full mt-2" onClick={handlePlaceOrder}>
+              Place Order
             </Button>
           </div>
         </div>
