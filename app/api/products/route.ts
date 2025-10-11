@@ -1,4 +1,6 @@
 // app/api/products/route.ts
+export const runtime = "nodejs"; // 👈 ensures Prisma runs in Node.js, not on the Edge runtime
+
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 
