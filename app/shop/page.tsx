@@ -8,11 +8,11 @@ import { useCart } from "@/lib/cart-context"
 interface Product {
   id: number
   name: string
-  image: string
+  image?: string | null
   price: number
   offerPrice: number
   category: string
-  description: string
+  description?: string | null
 }
 
 export default function ShopPage() {
@@ -134,13 +134,26 @@ export default function ShopPage() {
               </div>
               <div className="flex justify-center gap-2 mt-auto">
                 <Button
-                  onClick={() => addToCart({ ...product, quantity: 1 })}
+                  onClick={() =>
+                    addToCart({
+                      ...product,
+                      quantity: 1,
+                      image: product.image || "/images/placeholder.png",
+                    })
+                  }
                   className="bg-black text-white w-full"
                 >
                   Add to Cart
                 </Button>
                 <Button
-                  onClick={() => addToCart({ ...product, quantity: 1 })}
+                  onClick={() => {
+                    addToCart({
+                      ...product,
+                      quantity: 1,
+                      image: product.image || "/images/placeholder.png",
+                    })
+                    setSelectedProduct(null)
+                  }}
                   className="bg-yellow-400 text-black w-full"
                 >
                   Buy Now
@@ -175,7 +188,7 @@ export default function ShopPage() {
             <div className="md:w-1/2 flex flex-col justify-between">
               <div>
                 <h2 className="text-2xl font-bold mb-2">{selectedProduct.name}</h2>
-                <p className="mb-4">{selectedProduct.description}</p>
+                <p className="mb-4">{selectedProduct.description || "No description provided"}</p>
                 <p className="text-xl font-semibold mb-4">
                   UGX {selectedProduct.offerPrice.toLocaleString()}
                 </p>
@@ -183,7 +196,11 @@ export default function ShopPage() {
               <div className="flex gap-2 mt-auto">
                 <Button
                   onClick={() => {
-                    addToCart({ ...selectedProduct, quantity: 1 })
+                    addToCart({
+                      ...selectedProduct,
+                      quantity: 1,
+                      image: selectedProduct.image || "/images/placeholder.png",
+                    })
                     setSelectedProduct(null)
                   }}
                   className="bg-black text-white w-full"
@@ -192,7 +209,11 @@ export default function ShopPage() {
                 </Button>
                 <Button
                   onClick={() => {
-                    addToCart({ ...selectedProduct, quantity: 1 })
+                    addToCart({
+                      ...selectedProduct,
+                      quantity: 1,
+                      image: selectedProduct.image || "/images/placeholder.png",
+                    })
                     setSelectedProduct(null)
                   }}
                   className="bg-yellow-400 text-black w-full"
