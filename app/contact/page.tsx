@@ -21,6 +21,7 @@ export default function ContactPage() {
 
   return (
     <div className="container px-4 py-8 md:px-6 md:py-12">
+      {/* Page Title */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Contact Us</h1>
         <div className="flex items-center text-sm text-muted-foreground">
@@ -32,7 +33,9 @@ export default function ContactPage() {
         </div>
       </div>
 
+      {/* Contact Grid */}
       <div className="grid md:grid-cols-3 gap-8">
+        {/* Contact Form */}
         <div className="md:col-span-2">
           <Card>
             <CardContent className="p-6">
@@ -87,8 +90,8 @@ export default function ContactPage() {
                     <Textarea id="message" placeholder="How can we help you?" className="min-h-[150px]" required />
                   </div>
 
-                  <Button 
-                    type="submit" 
+                  <Button
+                    type="submit"
                     className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-600 text-black"
                   >
                     Send Message
@@ -99,6 +102,7 @@ export default function ContactPage() {
           </Card>
         </div>
 
+        {/* Contact Information */}
         <div>
           <Card>
             <CardContent className="p-6">
@@ -112,11 +116,9 @@ export default function ContactPage() {
                   <div>
                     <h3 className="font-medium">Address</h3>
                     <address className="not-italic text-muted-foreground">
-                      Bugolobi
-                      <br />
                       Bandali Rise
                       <br />
-                      Kampala, Uganda
+                      Bugolobi, Kampala, Uganda
                     </address>
                   </div>
                 </div>
@@ -133,8 +135,8 @@ export default function ContactPage() {
                       </a>
                     </p>
                     <p className="text-muted-foreground">
-                      <a href="tel:+256-712-345-678" className="hover:text-primary">
-                        +256-712-345-678
+                      <a href="tel:+256-701-234-567" className="hover:text-primary">
+                        +256-701-234-567
                       </a>
                     </p>
                   </div>
@@ -174,22 +176,34 @@ export default function ContactPage() {
             </CardContent>
           </Card>
 
+          {/* Socials */}
           <div className="mt-6">
             <Card>
               <CardContent className="p-6">
                 <h2 className="text-xl font-semibold mb-4">Follow Us</h2>
                 <div className="flex gap-4">
-                  {/* Social Icons */}
-                  <a href="#" className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <a
+                    href="#"
+                    className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
                     <span className="sr-only">Facebook</span>
                   </a>
-                  <a href="#" className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <a
+                    href="#"
+                    className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
                     <span className="sr-only">Instagram</span>
                   </a>
-                  <a href="#" className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <a
+                    href="#"
+                    className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
                     <span className="sr-only">Twitter</span>
                   </a>
-                  <a href="#" className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
+                  <a
+                    href="#"
+                    className="h-10 w-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+                  >
                     <span className="sr-only">LinkedIn</span>
                   </a>
                 </div>
@@ -202,10 +216,16 @@ export default function ContactPage() {
       {/* Map Section */}
       <div className="mt-12">
         <h2 className="text-2xl font-semibold mb-6">Find Us</h2>
-        <div className="h-[400px] bg-muted rounded-lg overflow-hidden relative">
-          <div className="absolute inset-0 flex items-center justify-center">
-            <p className="text-muted-foreground">Map would be displayed here</p>
-          </div>
+        <div className="h-[400px] rounded-lg overflow-hidden border shadow-sm">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.807206364251!2d32.6126695747294!3d0.3205204996915333!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x177dbb4159a64d3f%3A0x3e8c4c91b77b67a4!2sBandali%20Rise%2C%20Bugolobi%2C%20Kampala%2C%20Uganda!5e0!3m2!1sen!2sug!4v1697033430000!5m2!1sen!2sug"
+            width="100%"
+            height="100%"
+            style={{ border: 0 }}
+            allowFullScreen
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+          ></iframe>
         </div>
       </div>
     </div>
