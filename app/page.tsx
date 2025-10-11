@@ -88,6 +88,26 @@ export default function HomePage() {
       answer:
         "Yes! Once your order is shipped, you will receive a tracking number via email.",
     },
+    {
+      question: "What is your return policy?",
+      answer:
+        "We accept returns within 14 days of delivery. Products must be in original packaging and unused.",
+    },
+    {
+      question: "Do you offer international shipping?",
+      answer:
+        "Currently, we only ship within Uganda. International shipping will be available soon.",
+    },
+    {
+      question: "How long does delivery take?",
+      answer:
+        "Delivery typically takes 2-5 business days depending on your location.",
+    },
+    {
+      question: "Can I track my order?",
+      answer:
+        "Yes! Once your order is shipped, you will receive a tracking number via email.",
+    },
   ];
 
   // Fetch products from API
@@ -157,7 +177,7 @@ export default function HomePage() {
               className="border rounded-lg p-4 flex flex-col bg-gray-50 hover:shadow-md transition cursor-pointer"
               onClick={() => window.location.href = `/category/${product.category}`}
             >
-              <div className="aspect-square overflow-hidden rounded-lg bg-white mb-4 h-40">
+              <div className="aspect-square overflow-hidden rounded-lg bg-white mb-4 h-70">
                 <Image
                   src={product.image}
                   alt={product.name}
@@ -184,15 +204,6 @@ export default function HomePage() {
                   className="bg-black text-white w-full"
                 >
                   Add to Cart
-                </Button>
-                <Button
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    addToCart({ ...product, quantity: 1 });
-                  }}
-                  className="bg-yellow-400 text-black w-full"
-                >
-                  Buy Now
                 </Button>
               </div>
             </div>
@@ -231,7 +242,7 @@ export default function HomePage() {
               Ready to Power Your Next Adventure?
             </h2>
             <p className="text-black/80 max-w-2xl mb-8 text-lg">
-              Whether it’s for your home, business, or outdoor setup — our products are built to keep you powered and connected. Join thousands of happy customers today.
+              Whether it’s for your home, business, or outdoor setup, our products are built to keep you powered and connected. Join thousands of happy customers today.
             </p>
             <div className="flex justify-center gap-4 flex-wrap">
               <a href="/shop">

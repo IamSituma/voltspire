@@ -116,11 +116,11 @@ export default function ShopPage() {
                 onClick={() => setSelectedProduct(product)}
               >
                 <Image
-                  src={product.image}
+                  src={product.image || "/images/placeholder.png"}
                   alt={product.name}
                   width={300}
                   height={300}
-                  className="h-full w-full object-cover"
+                  className="object-cover rounded-lg"
                 />
               </div>
               <h3 className="font-medium mb-2 text-center">{product.name}</h3>
@@ -164,11 +164,11 @@ export default function ShopPage() {
             {/* Left: Image */}
             <div className="md:w-1/2">
               <Image
-                src={selectedProduct.image}
+                src={selectedProduct.image || "/images/placeholder.png"}
                 alt={selectedProduct.name}
                 width={500}
                 height={500}
-                className="rounded-lg object-cover w-full h-full"
+                className="object-cover rounded-lg"
               />
             </div>
             {/* Right: Details */}
